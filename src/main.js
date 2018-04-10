@@ -7,7 +7,7 @@ import 'common/stylus/index.styl'
 import fastclick from 'fastclick'
 Vue.config.productionTip = false
 
-fastclick.attach(document.body) // 取消body dom下点击事件的300ms延迟
+fastclick.attach(document.body) // 取消移动端body dom下点击事件的300ms延迟
 
 /* eslint-disable no-new */
 new Vue({

@@ -8,7 +8,7 @@ import originJSONP from 'jsonp'
  */
 export default function jsonp(url, data, option) {
   url += (url.indexOf('?') < 0 ? '?' : '&') + param(data)
-
+// 拼接url的常用手段（工作中可复用）
   return new Promise((resolve, reject) => {
     originJSONP(url, option, (err, data) => { // 回调函数（这个回调函数是这个第三方库提供的而不是jsonp的那个callback（jsonp的是option（函数名）））为什么是这个？因为是库支持的，err是none的话是代表成功的，data代表取到的数据
       if (!err) {
@@ -28,7 +28,7 @@ function param(data) {
   let url = ''
   for (var k in data) {
     let value = data[k] !== undefined ? data[k] : ''
-    url += `&${k}=${encodeURIComponent(value)}`
+    url += `&${k}=${encodeURIComponent(value)}` // 因为有些字符在url中是非法的所以要编码
   }
   return url ? url.substring(1) : ''
 }
