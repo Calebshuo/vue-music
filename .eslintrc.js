@@ -30,6 +30,8 @@ module.exports = {
     'indent':0,
     'semi':0,
     'no-trailing-spaces':0,
-    'no-tabs':0
+    'no-tabs':0,
+    'comma-spacing':0,
+    'spaced-comment':0
   }
 }

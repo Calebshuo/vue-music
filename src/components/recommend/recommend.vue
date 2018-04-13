@@ -1,7 +1,7 @@
 <template>
   <div class="recommend">
     <div class="recommend-content">
-      <div class="slider-wrapper">
+      <div v-if="recommends.length" class="slider-wrapper">
         <slider>
           <div v-for="(item,index) in recommends" :key="index">
             <a :href="item.linkUrl"> <!--这样的话点图片就能进入a标签的链接-->
@@ -60,7 +60,6 @@ export default {
         .slider-wrapper
           position relative
           width 100%
-          overflow hidden
         .recommend-list
           .list-title
             height 65px
