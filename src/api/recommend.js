@@ -13,3 +13,19 @@ export function getRecommend() {
   let result = jsonp(url, data, options)
   return result
 }
+
+export function getDiscList() {
+  const url = '/api/getDiscList'
+
+  const data = Object.assign({}, commonParams, {
+    rnd: Math.random(),
+    hostUin: 0,
+    platform: 'yqq',
+    needNewCode: 0,
+    categoryId: 10000000,
+    sortId: 5,
+    sin: 0,
+    ein: 29
+  })
+  return jsonp(url,data,options)
+}

@@ -2,7 +2,7 @@
   <div class="recommend">
     <div class="recommend-content">
       <div v-if="recommends.length" class="slider-wrapper">
-        <slider>
+        <slider><!--必须是recommends.length,因为数组为空if后是true-->
           <div v-for="(item,index) in recommends" :key="index">
             <a :href="item.linkUrl"> <!--这样的话点图片就能进入a标签的链接-->
               <img :src="item.picUrl">
@@ -20,7 +20,7 @@
 
 <script type='text/ecmascript-6'>
 import Slider from 'base/slider/slider'
-import {getRecommend} from 'api/recommend'
+import {getRecommend,getDiscList} from 'api/recommend'
 import {ERR_OK} from 'api/config'
 export default {
   data() {
@@ -30,6 +30,7 @@ export default {
   },
   created() {
     this._getRecommend()// 为什么要在这里调用？data已经初始化了，可以声明存放数据的容器了
+    this._getDiscList()
   },
   methods: {
     _getRecommend() {
@@ -38,7 +39,14 @@ export default {
           this.recommends = res.data.slider
         }
       })
-    }
+    },
+  _getDiscList() {
+      getDiscList().then((res) => {
+        if (res.code === ERR_OK) {
+          this.recommends = res.data.slider
+        }
+      })
+  }
   },
   components: {
     Slider
