@@ -2,11 +2,10 @@
 
   音乐播放器
 
-\# Build Setup
+# Build Setup
 
-\# install dependencies  
-npm install
-
-\# serve with hot reload at localhost:8080  
+> \#install dependencies  
+npm install  
+\#serve with hot reload at localhost:8080  
 npm run dev
 
