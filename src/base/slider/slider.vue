@@ -46,7 +46,7 @@ export default {
         if (!this.slider) {
           return
         }
-        this._setSliderWidth(true) // 存疑,不加true的话原始的变化后再变回来的width多了两个child的宽度
+        this._setSliderWidth(true) // 因为屏幕宽度发生改变时已经initSlider一次了，所以已经多了两个children，所以不需要再额外增加两个children的宽度了。
         this.slider.refresh()
       })
   },
