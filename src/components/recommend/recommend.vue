@@ -25,7 +25,8 @@ import {ERR_OK} from 'api/config'
 export default {
   data() {
     return {
-      recommends: []
+      recommends: [],
+      discList: []
     }
   },
   created() {

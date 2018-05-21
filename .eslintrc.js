@@ -32,6 +32,7 @@ module.exports = {
     'no-trailing-spaces':0,
     'no-tabs':0,
     'comma-spacing':0,
-    'spaced-comment':0
+    'spaced-comment':0,
+    'no-undef':0
   }
 }

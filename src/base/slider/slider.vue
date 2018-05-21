@@ -21,7 +21,7 @@ export default {
   },
   props: {
     loop: {
-      type: Boolean, //loop 为 true 是为了支持循环轮播
+      type: Boolean, //loop 为 true 是为了支持无缝循环轮播
       default: true
     },
     autoPlay: {
@@ -38,9 +38,7 @@ export default {
       this._setSliderWidth()
       this._initDots() //在克隆child之前初始化dots数组
       this._initSlider()
-      if (this.autoPlay) {
-        this._play()
-      }
+      this._autoPlay()
     },20) // 用$.nextTick也可，20ms（经验值）是因为浏览器是17ms刷新一次，但是就算设置20ms也会在1000ms之后刷新，mounted 是能获取到 DOM 对象，但 DOM 真正渲染到页面上需要一个 Tick 的时间。
     window.addEventListener('resize', () => { // 监听窗口改变事件
         if (!this.slider) {
@@ -72,37 +70,29 @@ export default {
           scrollX: true,
           scrollY: false,
           momentum: false, // 惯性
-          snap: true,
-          snapLoop: this.loop,
-          snapThreshold: 0.3,
-          snapSpeed: 400
+          snap: {
+          loop: this.loop,
+          threshold: 0.3,
+          speed: 400
+        }
         })
       this.slider.on('scrollEnd', () => { //这个回调可以不写这里吗？（存疑）
-        let pageIndex = this.slider.getCurrentPage().pageX
-        // getCurrentPage() 返回值：{Object} { x: posX, y: posY,pageX: x, pageY: y} 其中，x 和 y 表示偏移的坐标值，pageX 和 pageY 表示横轴方向和纵轴方向的（滚过的）！！页面数。
-        //console.log(pageIndex);
-        if (this.loop) {
-          pageIndex -= 1 //如果要循环轮播的话，第一个页面之前还克隆了一个页面所以还要减1
-        }
-        this.currentPageIndex = pageIndex
-
-        if (this.autoPlay) {
-            clearTimeout(this.timer) // 清除定时器
-            this._play()
-          }
+      this.currentPageIndex = this.slider.getCurrentPage().pageX;
+        this._autoPlay();
+      })
+      this.slider.on('beforeScrollStart', () => {
+        clearTimeout(this.timer);
       })
     },
     _initDots() {
       this.dots = new Array(this.children.length)
     },
-    _play() {
-      let pageIndex = this.currentPageIndex + 1
-      if (this.loop) {
-        pageIndex += 1
+   _autoPlay() { // 自动播放
+      if (this.autoPlay) {
+        this.timer = setTimeout(() => {
+          this.slider.next();
+        }, this.interval);
       }
-      this.timer = setTimeout(() => {
-        this.slider.goToPage(pageIndex,0,400) // 400ms表示动画执行的时间，与手动拖动执行动画的时间保持一致
-      },this.interval)
     }
   },
   destroyed() { //当页面切走的时候会调用这个钩子

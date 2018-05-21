@@ -33,7 +33,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
               host: 'c.y.qq.com',
               referer: 'https://y.qq.com/'
             },
-            params: req.query
+            params: req.query   // 这是什么？
           }).then((response) => {
             res.json(response.data)
           }).catch((err) => {
