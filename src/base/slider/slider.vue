@@ -95,8 +95,14 @@ export default {
       }
     }
   },
-  destroyed() { //当页面切走的时候会调用这个钩子
-    clearTimeout(this.timer)
+  activated() {
+    // 缓存后再次进入
+    if (this.autoPlay) {
+      this._autoPlay();
+    };
+  },
+  deactivated() {
+    clearTimeout(this.timer);
   }
 };
 </script>

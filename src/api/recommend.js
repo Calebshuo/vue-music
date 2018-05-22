@@ -28,7 +28,7 @@ export function getDiscList() { // 歌单列表数据获取
     format: 'json'
   });
   return axios.get('/api/getDiscList', {
-    params: data
+    params: data // 往'/api/getDiscList'这个地址传参数data
   }).then((res) => {
     return Promise.resolve(res.data);
   });

@@ -29,11 +29,11 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           const url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
         
           axios.get(url, {
-            headers: {
+            headers: {          // request.header只能由后端代理的方式去修改，在前端修改不了
               host: 'c.y.qq.com',
               referer: 'https://y.qq.com/'
             },
-            params: req.query   // 这是什么？
+            params: req.query   // 把data赋值给req.query，不写也可以（不知为什么）（因为没有重新npm install，所以才不会报错），node路由get请求的时候，第二个参数是回调，而回调里面的第一个参数req就是用来获取你的请求信息的，req.query 就是获取你传过来的参数
           }).then((response) => {
             res.json(response.data)
           }).catch((err) => {
