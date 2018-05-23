@@ -1,30 +1,32 @@
 <template>
   <div class="recommend">
-    <div class="recommend-content">
-      <div v-if="recommends.length" class="slider-wrapper">
-        <slider><!--必须是recommends.length,因为数组为空if后是true-->
-          <div v-for="(item,index) in recommends" :key="index">
-            <a :href="item.linkUrl"> <!--这样的话点图片就能进入a标签的链接-->
-              <img :src="item.picUrl">
-            </a>
-          </div>
-        </slider>
-      </div>
-      <div class="recommend-list">
-        <h1 class="list-title">热门歌单推荐</h1>
-        <ul>
-          <li class="item" v-for="(item, index) in discList" :key="index">
-            <div class="icon">
-              <img width="60" height="60" :src="item.imgurl">
+    <scroll ref="scroll" class="recommend-content" :data="discList">
+      <div>
+        <div v-if="recommends.length" class="slider-wrapper">
+          <slider><!--必须是recommends.length,因为数组为空if后是true-->
+            <div v-for="(item,index) in recommends" :key="index">
+              <a :href="item.linkUrl"> <!--这样的话点图片就能进入a标签的链接-->
+                <img :src="item.picUrl" @load="loadImage"> <!-- src是一个地址，当拿到recommends的时候就拿到了这个地址，但是还要去这个地址请求图片，这也是一个异步的过程，所以要监听这个图片的加载，这个图片的加载完成决定了最终的dom高度 -->
+              </a>
             </div>
-            <div class="text">
-              <h2 class="name" v-html="item.creator.name"></h2>
-              <div class="desc" v-html="item.dissname"></div>
-            </div>
-          </li>
-          </ul>
+          </slider>
+        </div>
+        <div class="recommend-list">
+          <h1 class="list-title">热门歌单推荐</h1>
+          <ul>
+            <li class="item" v-for="(item, index) in discList" :key="index">
+              <div class="icon">
+                <img width="60" height="60" :src="item.imgurl">
+              </div>
+              <div class="text">
+                <h2 class="name" v-html="item.creator.name"></h2>
+                <div class="desc" v-html="item.dissname"></div>
+              </div>
+            </li>
+            </ul>
+        </div>
       </div>
-    </div>
+    </scroll>
   </div>
 </template>
 
@@ -32,6 +34,7 @@
 import Slider from 'base/slider/slider'
 import {getRecommend,getDiscList} from 'api/recommend'
 import {ERR_OK} from 'api/config'
+import Scroll from 'base/scroll/scroll'
 export default {
   data() {
     return {
@@ -57,10 +60,17 @@ export default {
           this.discList = res.data.list
         }
       })
-  }
+    },
+    loadImage() {
+        if (!this.checkLoaded) {
+          this.$refs.scroll.refresh()   //父组件调用子组件方法
+        }
+        this.checkLoaded = true
+      }
   },
   components: {
-    Slider
+    Slider,
+    Scroll
   }
 }
 </script>

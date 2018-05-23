@@ -77,8 +77,8 @@ export default {
         }
         })
       this.slider.on('scrollEnd', () => { //这个回调可以不写这里吗？（存疑）
-      this.currentPageIndex = this.slider.getCurrentPage().pageX;
-        this._autoPlay();
+      this.currentPageIndex = this.slider.getCurrentPage().pageX; // 从0开始，返回轮播图下标index
+      this._autoPlay();
       })
       this.slider.on('beforeScrollStart', () => {
         clearTimeout(this.timer);
@@ -124,7 +124,7 @@ export default {
         width 100%
         img
           display block 
-          width 100%
+          width 100%   //图片宽度设成100%高度就会自适应 
   .dots
     position: absolute
     right: 0
