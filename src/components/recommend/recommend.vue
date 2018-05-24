@@ -6,7 +6,7 @@
           <slider><!--必须是recommends.length,因为数组为空if后是true-->
             <div v-for="(item,index) in recommends" :key="index">
               <a :href="item.linkUrl"> <!--这样的话点图片就能进入a标签的链接-->
-                <img :src="item.picUrl" @load="loadImage"> <!-- src是一个地址，当拿到recommends的时候就拿到了这个地址，但是还要去这个地址请求图片，这也是一个异步的过程，所以要监听这个图片的加载，这个图片的加载完成决定了最终的dom高度 -->
+                <img :src="item.picUrl" @load="loadImage"> <!-- src是一个地址，当拿到recommends的时候就拿到了这个地址，但是还要去这个地址请求图片，这也是一个异步的过程（浏览器去完成的一个异步的请求），所以要监听这个图片的加载，这个图片的加载完成决定了最终的dom高度 -->
               </a>
             </div>
           </slider>
@@ -16,11 +16,12 @@
           <ul>
             <li class="item" v-for="(item, index) in discList" :key="index">
               <div class="icon">
-                <img width="60" height="60" :src="item.imgurl">
-              </div>
+                <img width="60" height="60" v-lazy="item.imgurl">
+              </div> <!-- 图片懒加载，减少流量，提升加载速度 -->
               <div class="text">
                 <h2 class="name" v-html="item.creator.name"></h2>
                 <div class="desc" v-html="item.dissname"></div>
+                <!-- 内容按普通 HTML 插入 -->
               </div>
             </li>
             </ul>
