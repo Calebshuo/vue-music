@@ -12,12 +12,10 @@ export function hasClass(el, className) {
   return reg.test(el.className)
 }
 
-export function getElementAttribute(el, name, val) {
-  let prefix = 'data-'
-  let attr = prefix + name
+export function getData(el, name, val) {
+  const prefix = 'data-'
   if (val) {
-    return el.setAttribute(attr, val)
-  } else {
-    return el.getAttribute(attr)
+    return el.setAttribute(prefix + name, val) // 如果有值的话（val）就是set，没有的话就是get（给方法做一下扩展，是一种设计技巧）
   }
+  return el.getAttribute(prefix + name)
 }

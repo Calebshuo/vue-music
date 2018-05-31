@@ -59,7 +59,7 @@
         this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments)
       },
       scrollToElement() {
-        this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
+        this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)  // 传进来的实参默认进到arguments数组中,因为scrollToElement()要接收参数所以要使用apply
       }
     },
     watch: {

@@ -26,7 +26,9 @@ export default {
     _getSingerList() {
       getSingerList().then(res => {
         if (ERR_OK === res.code) {
+          //console.log(res.data.list)
           this.singers = this._normalizeSinger(res.data.list)
+          //console.log(this.singers)
         }
       })
     },
@@ -56,7 +58,8 @@ export default {
             id: item.Fsinger_mid
           }))
         })
-        // 为了得到有序列表，我们需要处理 map
+        // 为了得到有序列表，我们需要处理 map // 遍历对象是无序的，所以必须转换为数组再去遍历
+        // 给标题为A-Z的对象排序
         let ret = []
         let hot = []
         for (let key in map) {
