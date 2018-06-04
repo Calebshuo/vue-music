@@ -42,7 +42,7 @@
         })
         if (this.listenScroll) {
           this.scroll.on('scroll', (pos) => {
-            this.$emit('scroll', pos.y)
+            this.$emit('scroll', pos)
           })
         }
       },

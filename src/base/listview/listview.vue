@@ -1,5 +1,9 @@
 <template>
-  <scroll :data="data" class="listview" ref="listview">
+  <scroll :data="data" 
+          class="listview" 
+          ref="listview" 
+          :listenScroll="listenScroll"
+           @scroll="scroll">  <!--监听到的scroll事件=scroll函数-->
     <ul>
       <li v-for="(group,index) in data" class="list-group" ref="listGroup" :key="index">
         <h2 class="list-group-title">{{group.title}}</h2>
@@ -12,11 +16,10 @@
       </li>
     </ul>
     <div class="list-shortcut" @touchstart="onShortcutTouchStart" @touchmove.stop.prevent="onShortcutTouchMove">
-      <ul class="b"> <!-- 这里的touchstart touchmove是js的原生事件但是被better-scroll在内部重写了，原本的event.target事件指向的是最内层的dom（所以才会有事件代理）。.stop.prevent是阻止冒泡和默认事件（这个是vue提供的）-->
+      <ul> <!-- 这里的touchstart touchmove是js的原生事件，e.target指向的是最内层的dom（所以才会有事件代理）。.stop.prevent是阻止冒泡和默认事件（这个是vue提供的）-->
         <li v-for="(item, index) in shortcutList" class="item"
         :key="index" :data-index="index">
           {{item}}
-          <span class="a"></span>
         </li>
       </ul>
     </div>
@@ -32,12 +35,16 @@ const ANCHOR_HEIGHT = 18
 export default {
   created() {
     this.touch = {}
+    this.listenScroll = true
   },
   props: {
     data: {
       type: Array,
       default: null
     }
+  },
+  data() {
+    scrollY: -1
   },
   components: {
     Scroll
@@ -54,7 +61,8 @@ export default {
       // console.log(e) // touchevent是一个对象，里面包含着点击的dom对象
       // console.log(e.target)
       let anchorIndex = getData(e.target, 'index')
-      let firstTouch = e.touches[0]
+      let firstTouch = e.touches[0] // 用访问数组的方式访问对象
+      // console.log(firstTouch)
       this.touch.y1 = firstTouch.pageY
       this.touch.anchorIndex = anchorIndex
       this._scrollTo(anchorIndex);
@@ -69,6 +77,9 @@ export default {
       // 除以每一个字母的高度（18px）然后向下取整，得到滑动了几个字母块
       let anchorIndex = parseInt(this.touch.anchorIndex) + delta // getData()返回的是字符串，所以要转换成int类型再去相加
       this._scrollTo(anchorIndex)
+      },
+      scroll(pos) {
+        this.scrollY = pos.y
       },
     _scrollTo(index) {
       this.$refs.listview.scrollToElement(this.$refs.listGroup[index],0)
