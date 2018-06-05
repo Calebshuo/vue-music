@@ -37,7 +37,7 @@
           return
         }
         this.scroll = new BScroll(this.$refs.wrapper, {
-          probeType: this.probeType,
+          probeType: this.probeType, // probeType决定了何时派发scroll事件
           click: this.click
         })
         if (this.listenScroll) {
