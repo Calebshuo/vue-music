@@ -5,8 +5,8 @@
 </template>
 
 <script type='text/ecmascript-6'>
-import {getSingerList} from 'api/singer';
-import {ERR_OK} from 'api/config';
+import {getSingerList} from 'api/singer'
+import {ERR_OK} from 'api/config'
 import Singer from 'common/js/singer'
 import ListView from 'base/listview/listview'
 
@@ -71,7 +71,7 @@ export default {
           }
         }
         ret.sort((a, b) => {
-          return a.title.charCodeAt(0) -   b.title.charCodeAt(0) // 对字母A-Z进行排序
+          return a.title.charCodeAt(0) -  b.title.charCodeAt(0) // 对字母A-Z进行排序
         })
         return hot.concat(ret)
       }

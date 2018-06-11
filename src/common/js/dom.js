@@ -17,5 +17,5 @@ export function getData(el, name, val) {
   if (val) {
     return el.setAttribute(prefix + name, val) // 如果有值的话（val）就是set，没有的话就是get（给方法做一下扩展，是一种设计技巧）
   }
-  return el.getAttribute(prefix + name)
+  return el.getAttribute(prefix + name) // 如果el这个对象没有data-index属性的话，这个方法会返回null
 }

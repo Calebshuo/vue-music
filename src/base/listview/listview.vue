@@ -27,14 +27,22 @@
         </li>
       </ul>
     </div>
+    <div class="list-fixed" ref="fixed" v-show="fixedTitle">
+      <div class="fixed-title">{{fixedTitle}} </div>
+    </div>
+    <div v-show="!data.length" class="loading-container">
+      <loading></loading>
+    </div>
   </scroll>
 </template>
 
 <script type='text/ecmascript-6'>
 import Scroll from 'base/scroll/scroll'
 import {getData} from 'common/js/dom'
+import Loading from 'base/loading/loading'
 
 const ANCHOR_HEIGHT = 18
+const TITLE_HEIGHT = 30
 
 export default {
   created() {
@@ -52,18 +60,26 @@ export default {
   data() {
     return {
       scrollY: -1,
-      currentIndex: 0
+      currentIndex: 0,
+      diff: -1
     }
   },
   components: {
-    Scroll
+    Scroll,
+    Loading
   },
   computed: {
     shortcutList() {
       return this.data.map((group) => { // 数组的每一项是一个对象，每个对象的title按A-Z的顺序排列
         return group.title.substr(0, 1)
       })
-    }
+    },
+    fixedTitle() {
+        if (this.scrollY > 0) {
+          return ''
+        }
+        return this.data[this.currentIndex] ? this.data[this.currentIndex].title : ''
+      }
   },
   methods: {
     onShortcutTouchStart(e) {
@@ -91,11 +107,24 @@ export default {
         this.scrollY = pos.y
       },
     _scrollTo(index) {
+      if (!index && index !== 0) {
+          return
+        }
+        if (index < 0) {
+          index = 0
+        } else if (index > this.listHeight.length - 2) {
+          index = this.listHeight.length - 2
+        }
+      if (!index && index !== 0) {  // 防止点击父盒子padding触发移动事件
+        return
+      }
+      this.scrollY = -this.listHeight[index]
       this.$refs.listview.scrollToElement(this.$refs.listGroup[index],0)
     },
     _calculateHeight() {
         this.listHeight = []
         const list = this.$refs.listGroup
+        //console.log(list)
         let height = 0
         this.listHeight.push(height)
         for (let i = 0; i < list.length; i++) {
@@ -131,6 +160,14 @@ export default {
         }
         // 当滚动到底部，且-newY大于最后一个元素的上限
         this.currentIndex = listHeight.length - 2
+      },
+      diff(newVal) {
+        let fixedTop = (newVal > 0 && newVal < TITLE_HEIGHT) ? newVal - TITLE_HEIGHT : 0
+        // if (this.fixedTop === fixedTop) {
+        //   return
+        // }
+        //  this.fixedTop = fixedTop
+        this.$refs.fixed.style.transform = `translate3d(0,${fixedTop}px,0)`
       }
   }
 };
