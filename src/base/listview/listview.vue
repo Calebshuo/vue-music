@@ -9,7 +9,7 @@
       <li v-for="(group,index) in data" class="list-group" ref="listGroup" :key="index">
         <h2 class="list-group-title">{{group.title}}</h2>
         <ul>
-          <li @click="selectItem(item)" v-for="(item,index) in group.items" class="list-group-item" :key="index">
+           <li @click="selectItem(item)" v-for="(item,index) in group.items" class="list-group-item" :key="index">  <!--@click="selectFoods(food,$event)点击事件是这么拿的-->
             <img class="avatar" v-lazy="item.avatar">
             <span class="name">{{item.name}}</span>
           </li>
@@ -82,6 +82,10 @@ export default {
       }
   },
   methods: {
+    selectItem(item) {
+        // console.log(item) // 派发出的是一个Singer实例（new Singer）
+        this.$emit('select', item)
+      },
     onShortcutTouchStart(e) {
       // console.log(e) // touchevent是一个对象，里面包含着点击的dom对象
       // console.log(e.target)
