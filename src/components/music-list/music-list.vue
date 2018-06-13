@@ -65,6 +65,8 @@ export default {
     this.imageHeight = this.$refs.bgImage.clientHeight
     this.minTransalteY = -this.imageHeight + RESERVED_HEIGHT
     this.$refs.list.$el.style.top = `${this.imageHeight}px`
+    //console.log(this.$refs.list)  // 获取的是子组件、VueComponent对象
+    //console.log(this.$refs.list.$el) // 获取的才是我们可以操作的dom对象
   },
   methods: {
     scroll(pos) {
