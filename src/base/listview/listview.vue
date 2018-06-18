@@ -111,19 +111,16 @@ export default {
         this.scrollY = pos.y
       },
     _scrollTo(index) {
-      if (!index && index !== 0) {
+        if (!index && index !== 0) { // 防止点击父盒子padding触发移动事件
           return
         }
-        if (index < 0) {
+        if (index < 0) {  // 因为delta值可能过大或者为负，所以要限制一下
           index = 0
         } else if (index > this.listHeight.length - 2) {
           index = this.listHeight.length - 2
         }
-      if (!index && index !== 0) {  // 防止点击父盒子padding触发移动事件
-        return
-      }
-      this.scrollY = -this.listHeight[index]
-      this.$refs.listview.scrollToElement(this.$refs.listGroup[index],0)
+        this.scrollY = -this.listHeight[index]
+        this.$refs.listview.scrollToElement(this.$refs.listGroup[index],0)
     },
     _calculateHeight() {
         this.listHeight = []

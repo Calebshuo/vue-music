@@ -36,7 +36,7 @@ export default {
     this._getDetail()
   },
   methods: {
-    _getDetail() {
+       _getDetail() {
       if (!this.singer.id) {
         this.$router.push('/singer');
         return;

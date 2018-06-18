@@ -25,7 +25,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   // these devServer options should be customized in /config/index.js
   devServer: {
       before(app) {
-        app.get('/api/getDiscList', function(req, res) {
+        app.get('/a/getDiscList', function(req, res) {
           const url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
         
           axios.get(url, {

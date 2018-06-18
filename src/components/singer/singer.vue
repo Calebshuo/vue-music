@@ -85,7 +85,7 @@ export default {
       });
       return hot.concat(ret);
     },
-    ...mapMutations({
+    ...mapMutations({  // 函数的返回值是一个对象
         setSinger: 'SET_SINGER' // 把对mutation的修改映射成一个方法名 // 使用对象展开运算符将此对象混入到外部对象中
     })
   },
